@@ -27,10 +27,13 @@ class Processor(Base):
         image = image.crop((32, 32, 223, 223))
         image = image.resize((128, 128))
         x_data = numpy.array(image)
+        print("image:",x_data.shape)#128,128
         x_data = x_data.astype(numpy.float32)
         x_data = x_data.reshape([128, 128, 1])
         x_data = numpy.multiply(x_data, 1.0 / 255.0)  ## scale to [0,1] from [0,255]
-        x_data = numpy.transpose(x_data, (2, 0, 1))  ## reshape
+        #x_data = numpy.transpose(x_data, (2, 0, 1))  ## reshape
+        print("x_data:",x_data.shape)#1,128,128
+        
         return x_data
 
     # 该参数需要与app.yaml的Model的output-->columns->name 一一对应

@@ -17,7 +17,7 @@ model = Model(dataset)
 
 '''
 parser = argparse.ArgumentParser()
-parser.add_argument("-e", "--EPOCHS", default=1000, type=int, help="train epochs")
+parser.add_argument("-e", "--EPOCHS", default=100, type=int, help="train epochs")
 parser.add_argument("-b", "--BATCH", default=32, type=int, help="batch size")
 args = parser.parse_args()
 # 定义命名空间
@@ -131,6 +131,7 @@ with tf.Session() as sess:
 
     for i in range(args.EPOCHS):
         x_train, y_train, x_test, y_test = dataset.next_batch(args.BATCH)
+        print("x_train",x_train.shape)#32,80,80,3
         _, loss = sess.run([train_step, loss_function], feed_dict={x: x_train, y: y_train, keep_prob: 0.5})
         summary = sess.run(merged, feed_dict={x: x_train, y: y_train, keep_prob: 1.0})
         train_writer.add_summary(summary, i)
