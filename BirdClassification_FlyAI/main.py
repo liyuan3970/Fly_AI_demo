@@ -88,6 +88,7 @@ with tf.name_scope('Conv2'):
         h_conv2 = tf.nn.relu(conv2d_2)
     with tf.name_scope('h_pool2'):
         h_pool2 = max_pool_2x2(h_conv2)
+        print("h_pool:",h_pool2.shape)
 
 with tf.name_scope('fc1'):
     # 初始化第一个全连接层的权值
