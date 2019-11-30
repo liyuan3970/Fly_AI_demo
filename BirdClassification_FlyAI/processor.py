@@ -19,7 +19,7 @@ class Processor(Base):
         image = cv2.imread(path)
         image = np.array(image)  # 图片转化为矩阵向量
         image = transform.resize(image, output_shape=(80, 80))
-        print(image.shape)#(80,80,3)
+        #print(image.shape)#(80,80,3)
         return image
 
     def input_y(self, label):
