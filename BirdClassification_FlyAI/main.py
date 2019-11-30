@@ -17,7 +17,7 @@ model = Model(dataset)
 
 '''
 parser = argparse.ArgumentParser()
-parser.add_argument("-e", "--EPOCHS", default=2000, type=int, help="train epochs")
+parser.add_argument("-e", "--EPOCHS", default=1000, type=int, help="train epochs")
 parser.add_argument("-b", "--BATCH", default=32, type=int, help="batch size")
 args = parser.parse_args()
 # 定义命名空间
