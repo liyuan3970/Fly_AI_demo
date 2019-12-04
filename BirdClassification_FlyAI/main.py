@@ -126,6 +126,7 @@ with tf.name_scope("cross_entropy"):
     cross_entropy = tf.reduce_mean(cross)
     tf.summary.scalar("cross_entropy_scalar", cross_entropy)
 
+
 with tf.name_scope("train"):
     train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
 
@@ -135,6 +136,19 @@ with tf.name_scope("accuracy"):
     correct_prediction = tf.equal(tf.argmax(predic, 1), tf.argmax(y, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     tf.summary.scalar("accuracy_scalar", accuracy)
+
+=======
+
+with tf.name_scope("train"):
+    train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
+
+
+#计算预测精度并汇总为标量数据
+with tf.name_scope("accuracy"):
+    correct_prediction = tf.equal(tf.argmax(predic, 1), tf.argmax(y, 1))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+    tf.summary.scalar("accuracy_scalar", accuracy)
+
 
 # 使用merge_all()函数直接获取所有汇总操作
 merged = tf.summary.merge_all()
@@ -164,8 +178,4 @@ with tf.Session() as sess:
         
         #train_log(train_loss=loss)
         print("step:", i, "loss:", loss)
-        #print(str(i + 1) + "/" + str(args.EPOCHS))     
-        
-        
-        
 

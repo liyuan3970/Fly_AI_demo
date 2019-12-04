@@ -18,6 +18,7 @@ class Processor(Base):
         # 将图片转换成 [28, 28, 1]
         img = img[:, :, 0]
         img = img.reshape(28, 28, 1)
+        #img = img.reshape(28*28)
         return img
 
     def input_y(self, label):
