@@ -137,7 +137,7 @@ with tf.name_scope("accuracy"):
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     tf.summary.scalar("accuracy_scalar", accuracy)
 
-=======
+
 
 with tf.name_scope("train"):
     train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
