@@ -1,0 +1,4 @@
+flyai
+numpy
+tensorflow
+scikit-image
