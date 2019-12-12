@@ -153,10 +153,8 @@ prediction = tf.add(softmax, 0, name='y_conv')
 print("##################################")
 print(prediction.shape)
 
-cross = tf.nn.softmax_cross_entropy_with_logits(logits=prediction, labels=y)
-loss = tf.reduce_mean(cross)
-#loss = slim.losses.softmax_cross_entropy(prediction, y)  # 读入标签
-optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.0001)
+loss = slim.losses.softmax_cross_entropy(prediction, y)  # 读入标签
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
 train_op = slim.learning.create_train_op(loss, optimizer)  # 训练以及优化
 
 # 求准确率：
@@ -165,26 +163,17 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 merged = tf.summary.merge_all()
 saver = tf.train.Saver()
-#init = tf.global_variables_initializer()
+init = tf.global_variables_initializer()
 
 with tf.Session() as sess:
-    sess.run(tf.global_variables_initializer())
+    sess.run(init)
     train_writer = tf.summary.FileWriter(LOG_PATH, sess.graph)
-    test_writer = tf.summary.FileWriter(LOG_PATH, sess.graph)
-
+    #x_train, y_train, x_test, y_test = dataset.next_batch(args.BATCH)
     for i in range(args.EPOCHS):
         x_train, y_train, x_test, y_test = dataset.next_batch(args.BATCH)
-        if i % 100 == 0:  # Record summaries and test-set accuracy
-            summary, acc = sess.run([merged, accuracy], feed_dict={x: x_test, y: y_test, keep_prob: 1})
-            test_writer.add_summary(summary, i)
-            print("Accuracy at step %s,accuracy is: %s%%" % (i, acc * 100))
-        _,loss= sess.run([train_op,loss], feed_dict={x: x_train, y: y_train, keep_prob: 0.7})
-        summary = sess.run(merged, feed_dict={x: x_train, y: y_train, keep_prob: 1})
-
-        train_writer.add_summary(summary, i)
-        
+        train_dict = {x: x_train, y: y_train, keep_prob: 0.5}
+        sess.run(train_op, feed_dict=train_dict)
+        losses, acc_ = sess.run([loss, accuracy], feed_dict=train_dict)
+        y_convs = sess.run(prediction, feed_dict=train_dict)
+        print("step:{}, loss:{}, acc:{}".format(i + 1, losses, acc_))
         model.save_model(sess, MODEL_PATH, overwrite=True)
-        
-        
-        #train_log(train_loss=loss)
-        print("step:", i, "loss:", loss)
