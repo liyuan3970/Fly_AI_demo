@@ -29,7 +29,8 @@ class Processor(Base):
         x_data = x_data.astype(numpy.float32)
         x_data = x_data.reshape([128, 128, 1])
         x_data = numpy.multiply(x_data, 1.0 / 255.0)  ## scale to [0,1] from [0,255]
-        x_data = numpy.transpose(x_data, (2, 0, 1))  ## reshape
+        print("image_shape:",x_data.shape)
+        #x_data = numpy.transpose(x_data, (2, 0, 1))  ## reshape
         return x_data
 
     # 该参数需要与app.yaml的Model的output-->columns->name 一一对应
